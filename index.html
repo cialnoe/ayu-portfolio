@@ -73,11 +73,14 @@
 
     /* Marquee */
     .marquee{position:relative;z-index:2;overflow:hidden;border-block:1px solid var(--line);background:rgba(18,51,48,.44);padding:1.05rem 0}
-    .marquee-track{display:flex;width:max-content;animation:forward 36s linear infinite}
-    .marquee-track+.marquee-track{margin-top:.65rem;animation-name:reverse;animation-duration:44s}
+    .marquee-row{display:flex;overflow:hidden}
+    .marquee-row+.marquee-row{margin-top:.65rem}
+    .marquee-track{display:flex;width:max-content;flex:0 0 auto;will-change:transform;animation:marquee-left 36s linear infinite}
+    .marquee-row--reverse .marquee-track{animation-name:marquee-right;animation-duration:44s}
     .marquee-line{display:flex;flex:0 0 auto;align-items:center;gap:1.2rem;padding-right:1.2rem;color:var(--paper-dim);font-size:.67rem;font-weight:700;letter-spacing:.15em;white-space:nowrap}
     .marquee-line span:nth-child(even){color:var(--gold)}
-    @keyframes forward{to{transform:translateX(-50%)}} @keyframes reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+    @keyframes marquee-left{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+    @keyframes marquee-right{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
 
     /* Shared section styles */
     main{position:relative;z-index:2}.section{position:relative;padding:clamp(5rem,12vh,8.5rem) var(--gutter)}
@@ -180,7 +183,7 @@
       .hero-role{margin-top:1.1rem;font-size:.96rem;line-height:1.65}.hero-meta{margin-top:.85rem;font-size:.78rem}
       .hero-actions{gap:.25rem 1rem;margin-top:1.1rem}.hero-actions a{min-height:2.6rem;font-size:.67rem}
       .scroll-cue{bottom:1.35rem;font-size:.58rem}.scroll-cue-line{height:24px}
-      .marquee{padding:.85rem 0}.marquee-track+.marquee-track{margin-top:.4rem}.marquee-line{gap:.85rem;padding-right:.85rem;font-size:.58rem}
+      .marquee{padding:.85rem 0}.marquee-row+.marquee-row{margin-top:.4rem}.marquee-line{gap:.85rem;padding-right:.85rem;font-size:.58rem}
       .section{padding-block:5.2rem}.kicker{font-size:.66rem}h2{margin-bottom:1.3rem;font-size:clamp(2.25rem,10vw,3.4rem)}
       .about-subtitle{font-size:clamp(1.7rem,7vw,2.4rem)}.lede{font-size:1rem;line-height:1.8}.lede+.lede{font-size:.93rem}
       .timeline{margin-top:2.5rem}.timeline-item{padding-bottom:2.6rem;padding-left:2.6rem}.tl-role{font-size:1.42rem}.tl-org,.tl-list li{font-size:.88rem}
@@ -199,7 +202,9 @@
       *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
       .reveal{transform:none!important;opacity:1!important}
       .hero-photo-wrap,.hero-shape,.hero-ring,.project-card{transform:none!important}
-      .marquee-track{transform:none!important;animation:none!important}.about-word{opacity:1!important}
+      .about-word{opacity:1!important}
+      .marquee-track{animation-duration:72s!important;animation-iteration-count:infinite!important;animation-timing-function:linear!important}
+      .marquee-row--reverse .marquee-track{animation-duration:88s!important}
     }
   </style>
 </head>
@@ -230,12 +235,14 @@
       <div class="hero-content">
         <p class="eyebrow-row"><span class="eyebrow-dot" aria-hidden="true"></span> Mahasiswa Informatika</p>
         <h1 class="name" id="hero-title"><span>AYU RAHMA</span><span>NAIFAH</span></h1>
-        <p class="hero-role">Mahasiswa Informatika yang berfokus pada arsitektur web backend, sistem pendukung keputusan (DSS), dan desain UI/UX interaktif.</p>
+        <p class="hero-role">Selamat Datang, Mari Mengenal Lebih Dekat</p>
         <div class="hero-meta"><span class="hero-location">Yogyakarta, Indonesia</span></div>
         <div class="hero-actions" aria-label="Tautan kontak">
           <a href="mailto:ayurahmanaifah04@gmail.com">EMAIL <span aria-hidden="true">↗</span></a>
           <a href="https://www.linkedin.com/in/ayurahmanaifah/" target="_blank" rel="noopener noreferrer">LINKEDIN <span aria-hidden="true">↗</span></a>
-          <a href="https://github.com/cialnoe" target="_blank" rel="noopener noreferrer">GITHUB <span aria-hidden="true">↗</span></a>
+          <a href="#">WHATSAPP <span aria-hidden="true">↗</span></a>
+          <a href="https://instagram.com/arahmanaifa" target="_blank" rel="noopener noreferrer">INSTAGRAM <span aria-hidden="true">↗</span></a>
+          <a href="https://tiktok.com/@cialnoe" target="_blank" rel="noopener noreferrer">TIKTOK <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <a class="scroll-cue" href="#about"><span class="scroll-cue-line" aria-hidden="true"></span> GULIR UNTUK MENJELAJAH</a>
@@ -243,13 +250,17 @@
 
     <!-- Marquee -->
     <div class="marquee" role="region" aria-label="Bidang yang tercantum dalam portofolio">
-      <div class="marquee-track" aria-hidden="true">
-        <div class="marquee-line"><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span></div>
-        <div class="marquee-line"><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span></div>
+      <div class="marquee-row">
+        <div class="marquee-track" aria-hidden="true">
+          <div class="marquee-line"><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span></div>
+          <div class="marquee-line"><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span></div>
+        </div>
       </div>
-      <div class="marquee-track" aria-hidden="true">
-        <div class="marquee-line"><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span></div>
-        <div class="marquee-line"><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span></div>
+      <div class="marquee-row marquee-row--reverse">
+        <div class="marquee-track" aria-hidden="true">
+          <div class="marquee-line"><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span></div>
+          <div class="marquee-line"><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>FASTAPI</span><span>•</span><span>STREAMLIT</span><span>•</span><span>FIGMA</span><span>•</span><span>WORDPRESS</span><span>•</span><span>SUPABASE</span><span>•</span></div>
+        </div>
       </div>
     </div>
 
@@ -258,8 +269,7 @@
       <div class="wrap-narrow">
         <div class="reveal"><p class="kicker">TENTANG SAYA</p><h2 class="about-title" id="about-title">Tentang Saya</h2><p class="about-subtitle">Menggabungkan Logika dan Kreativitas Visual</p></div>
         <div class="about-copy" id="about-copy">
-          <p class="lede">Saya adalah mahasiswa S1 program studi Informatika di Fakultas Teknologi Informasi, Universitas Mercu Buana Yogyakarta. Saya memiliki dedikasi terhadap penyelesaian masalah algoritmik dan rekayasa perangkat lunak modern.</p>
-          <p class="lede">Proyek pengembangan saya mencakup rentang kompetensi dari arsitektur backend Python menggunakan FastAPI dan basis data relasional, hingga penyusunan model sistem pendukung keputusan (DSS). Selain itu, saya memiliki ketertarikan untuk terus mengeksplorasi pembuatan antarmuka aplikasi interaktif yang menitikberatkan pada kelancaran pengalaman pengguna.</p>
+          <p class="lede">Saya terbiasa beradaptasi dalam lingkungan kerja yang dinamis, dengan pengalaman yang mencakup pelayanan pelanggan dan administrasi data. Saya mampu bekerja secara mandiri untuk tugas yang membutuhkan ketelitian tinggi, sekaligus komunikatif saat berkolaborasi dalam tim. Saya senang belajar hal baru dan selalu fokus menjaga efisiensi serta kualitas kerja, baik saat berinteraksi langsung dengan pelanggan maupun saat mengelola operasional harian.</p>
         </div>
       </div>
     </section>
@@ -272,28 +282,13 @@
         <div class="timeline" id="experience-timeline"><div class="timeline-track" aria-hidden="true"><span></span></div>
           <article class="timeline-item reveal">
             <div class="timeline-marker" aria-hidden="true"><span class="timeline-count">01</span><span class="timeline-dot"></span></div>
-            <p class="tl-period">Agustus 2026</p><h3 class="tl-role">Pengembang Backend &amp; Integrasi AI</h3><p class="tl-org">Aplikasi &ldquo;NutriLocal&rdquo;</p>
-            <ul class="tl-list"><li>Membangun infrastruktur aplikasi pemindai kalori dan nutrisi makanan.</li><li>Mengembangkan logika layanan backend secara komprehensif menggunakan FastAPI.</li><li>Mengintegrasikan model kecerdasan buatan berbasis visi komputer melalui Groq Llama 4 Vision.</li><li>Mengelola manajemen database dan deployment proyek dengan arsitektur Supabase.</li></ul>
+            <p class="tl-period">2022 – 2025</p><h3 class="tl-role">Pelayanan &amp; Service</h3><p class="tl-org">Kidzooona Playground</p>
+            <ul class="tl-list"><li>Memberikan pelayanan yang ramah, tanggap, dan profesional untuk memastikan kenyamanan setiap pengunjung.</li><li>Mengelola administrasi dan menyusun laporan harian secara teliti menggunakan sistem internal serta Microsoft Office.</li><li>Berkoordinasi aktif dengan rekan tim untuk menjaga kelancaran alur informasi dan operasional harian.</li><li>Mendukung kegiatan promosi internal dan memandu acara (MC) guna meningkatkan antusiasme pelanggan terhadap layanan.</li></ul>
           </article>
           <article class="timeline-item reveal">
             <div class="timeline-marker" aria-hidden="true"><span class="timeline-count">02</span><span class="timeline-dot"></span></div>
-            <p class="tl-period">Agustus 2026</p><h3 class="tl-role">Anggota Divisi Liaison Officer</h3><p class="tl-org">PKKMB FTI UMBY 2026</p>
-            <ul class="tl-list"><li>Bertanggung jawab dalam merancang konsep visual, tata busana (dress code), serta sesi dokumentasi untuk komite Liaison Officer di acara orientasi mahasiswa tingkat fakultas.</li></ul>
-          </article>
-          <article class="timeline-item reveal">
-            <div class="timeline-marker" aria-hidden="true"><span class="timeline-count">03</span><span class="timeline-dot"></span></div>
-            <p class="tl-period">Juni 2026</p><h3 class="tl-role">Pembuat Sistem Pendukung Keputusan (DSS)</h3><p class="tl-org">Proyek Algoritma Analitis</p>
-            <ul class="tl-list"><li>Menyelesaikan proyek pemeringkatan kinerja dan penunjang keputusan menggunakan Python.</li><li>Menerapkan metode analitis matematis Simple Additive Weighting (SAW) dan pengontrol logika Fuzzy (Scikit-fuzzy).</li><li>Merancang dan menghubungkan sistem dengan antarmuka grafis pengguna (GUI) menggunakan Streamlit.</li></ul>
-          </article>
-          <article class="timeline-item reveal">
-            <div class="timeline-marker" aria-hidden="true"><span class="timeline-count">04</span><span class="timeline-dot"></span></div>
-            <p class="tl-period">Mei 2026</p><h3 class="tl-role">Pengembang Web &amp; Blog</h3><p class="tl-org">Proyek Portofolio Pribadi</p>
-            <ul class="tl-list"><li>Membangun dan menstrukturisasi situs web portofolio pribadi berbasis WordPress menggunakan implementasi tema Twenty Twenty-Four untuk menampilkan karya pemrograman dan tulisan teknis.</li></ul>
-          </article>
-          <article class="timeline-item reveal">
-            <div class="timeline-marker" aria-hidden="true"><span class="timeline-count">05</span><span class="timeline-dot"></span></div>
-            <p class="tl-period">September 2025</p><h3 class="tl-role">Desainer UI/UX Purwarupa</h3><p class="tl-org">Aplikasi Mobile Banking</p>
-            <ul class="tl-list"><li>Merancang tampilan antarmuka (mockup) perbankan seluler interaktif di perangkat lunak Figma.</li><li>Membuat rancangan fitur tata letak kustom, alur aplikasi, dan simulasi otentikasi menggunakan integrasi pemindai biometrik.</li></ul>
+            <p class="tl-period">2021 – 2022</p><h3 class="tl-role">Pengolahan Data &amp; Monitoring</h3><p class="tl-org">Sekolah Pencetakan Wirausaha (Magang)</p>
+            <ul class="tl-list"><li>Melakukan pengumpulan dan pengolahan data secara akurat untuk kebutuhan pemantauan program sekolah.</li><li>Mendukung pengelolaan informasi dan administrasi sistem pencetakan wirausaha agar pendataan berjalan lebih rapi dan terstruktur.</li></ul>
           </article>
         </div>
       </div>
@@ -351,23 +346,18 @@
         <div class="skills-layout">
           <section class="skill-panel reveal" aria-labelledby="technical-skills-title">
             <h3 id="technical-skills-title">Technical Skills</h3>
-            <div class="skill-subgroup"><h4>Bahasa Pemrograman</h4><ul class="skill-list">
-              <li><span>Python</span><span class="tag">Lanjutan</span></li><li><span>Java (OOP, Swing, JDBC)</span><span class="tag">Menengah</span></li><li><span>PHP</span><span class="tag">Menengah</span></li><li><span>HTML &amp; CSS</span><span class="tag">Lanjutan</span></li>
-            </ul></div>
-            <div class="skill-subgroup"><h4>Alat, Framework, &amp; Infrastruktur</h4><ul class="skill-list">
-              <li><span>FastAPI &amp; Streamlit</span><span class="tag">Pengembangan Web</span></li><li><span>Figma</span><span class="tag">Desain UI/UX</span></li><li><span>GitHub</span><span class="tag">Kontrol Versi</span></li><li><span>Cisco Packet Tracer &amp; MikroTik</span><span class="tag">Jaringan &amp; Topologi</span></li><li><span>MATLAB &amp; Protege</span><span class="tag">Pemrosesan &amp; Ontology</span></li><li><span>Arduino IDE &amp; ESP32</span><span class="tag">Mikrokontroler</span></li>
+            <div class="skill-subgroup"><ul class="skill-list">
+              <li><span>Microsoft Office &amp; Google Sheets</span><span class="tag">Administrasi</span></li><li><span>Administrasi Operasional</span><span class="tag">Operasional</span></li><li><span>Desain &amp; Kreativitas Visual</span><span class="tag">Kreatif</span></li><li><span>Marketing &amp; Manajemen Acara</span><span class="tag">Komunikasi</span></li>
             </ul></div>
           </section>
           <section class="skill-panel reveal" aria-labelledby="professional-skills-title">
             <h3 id="professional-skills-title">Professional Skills</h3>
             <ul class="professional-list">
-              <li>Pengembangan backend dan integrasi AI berbasis visi komputer.</li>
-              <li>Perancangan sistem pendukung keputusan dengan metode SAW dan logika Fuzzy.</li>
-              <li>Desain antarmuka dan alur aplikasi interaktif menggunakan Figma.</li>
-              <li>Perancangan konsep visual dan dokumentasi untuk kegiatan orientasi mahasiswa.</li>
-              <li>Pembangunan serta penstrukturan situs web portofolio berbasis WordPress.</li>
+              <li>Komunikasi Efektif &amp; Pelayanan Publik: Mampu menyampaikan informasi dengan ramah, jelas, dan proaktif (tatap muka &amp; digital).</li>
+              <li>Kerja Tim &amp; Kolaborasi: Terbiasa berkoordinasi lintas departemen untuk kelancaran alur kerja.</li>
+              <li>Penyelesaian Masalah Cepat &amp; Tepat: Cekatan menghadapi situasi dinamis dan menemukan solusi praktis.</li>
+              <li>Manajemen Waktu &amp; Organisasi: Mampu mengatur prioritas tugas dan menjaga kedisiplinan.</li>
             </ul>
-            <p class="skill-note">Dirangkum dari tanggung jawab dan proyek yang tercantum pada pengalaman.</p>
           </section>
         </div>
       </div>
@@ -377,11 +367,13 @@
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="wrap-narrow reveal">
         <p class="kicker">KONTAK SAYA</p><h2 id="contact-title">Mari Terhubung</h2>
-        <p class="lede">Saya selalu terbuka untuk diskusi teknologi baru, prospek pengembangan perangkat lunak, maupun kesempatan karier di bidang teknologi dan informatika.</p>
+        <p class="lede">Saya selalu bersemangat menyambut tantangan baru dan lingkungan kerja yang dinamis. Jika Anda mencari rekan tim yang tanggap, teliti, dan komunikatif, saya siap bergabung. Jangan ragu untuk menghubungi saya guna mendiskusikan peluang karier yang ada!</p>
         <div class="contact-links" aria-label="Pilihan kontak">
           <a href="mailto:ayurahmanaifah04@gmail.com">EMAIL <span aria-hidden="true">↗</span></a>
           <a href="https://www.linkedin.com/in/ayurahmanaifah/" target="_blank" rel="noopener noreferrer">LINKEDIN <span aria-hidden="true">↗</span></a>
-          <a href="https://github.com/cialnoe" target="_blank" rel="noopener noreferrer">GITHUB <span aria-hidden="true">↗</span></a>
+          <a href="#">WHATSAPP <span aria-hidden="true">↗</span></a>
+          <a href="https://instagram.com/arahmanaifa" target="_blank" rel="noopener noreferrer">INSTAGRAM <span aria-hidden="true">↗</span></a>
+          <a href="https://tiktok.com/@cialnoe" target="_blank" rel="noopener noreferrer">TIKTOK <span aria-hidden="true">↗</span></a>
         </div>
         <a class="contact-primary" href="mailto:ayurahmanaifah04@gmail.com">LET'S CONNECT <span aria-hidden="true">↗</span></a>
       </div>
