@@ -74,8 +74,8 @@
     /* Marquee */
     .marquee{position:relative;z-index:2;overflow:hidden;border-block:1px solid var(--line);background:rgba(18,51,48,.44);padding:1.05rem 0}
     .marquee-toggle{display:none;align-items:center;min-height:2.25rem;padding:.45rem .8rem;border:1px solid rgba(231,201,137,.4);border-radius:999px;background:var(--ink);color:var(--paper);font:700 .65rem var(--sans);letter-spacing:.06em;cursor:pointer}
-    .marquee-track{display:flex;width:max-content;animation:forward 36s linear infinite}
-    .marquee-track+.marquee-track{margin-top:.65rem;animation-name:reverse;animation-duration:44s}
+    .marquee-track{display:flex;width:max-content;animation:forward 18s linear infinite}
+    .marquee-track+.marquee-track{margin-top:.65rem;animation-name:reverse;animation-duration:22s}
     .marquee-line{display:flex;flex:0 0 auto;align-items:center;gap:1.2rem;padding-right:1.2rem;color:var(--paper-dim);font-size:.67rem;font-weight:700;letter-spacing:.15em;white-space:nowrap}
     .marquee-line span:nth-child(even){color:var(--gold)}
     @keyframes forward{to{transform:translateX(-50%)}} @keyframes reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
@@ -204,8 +204,8 @@
       .marquee{padding-top:3.1rem}
       .marquee-track{transform:none!important;animation:none!important}
       .marquee-toggle:not([hidden]){position:absolute;top:.45rem;right:var(--gutter);z-index:2;display:inline-flex;align-items:center}
-      .marquee.is-moving .marquee-track{animation:forward 36s linear infinite!important}
-      .marquee.is-moving .marquee-track+.marquee-track{animation:reverse 44s linear infinite!important}
+      .marquee.is-moving .marquee-track{animation:forward 18s linear infinite!important}
+      .marquee.is-moving .marquee-track+.marquee-track{animation:reverse 22s linear infinite!important}
       .about-word{opacity:1!important}
     }
   </style>
