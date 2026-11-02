@@ -434,38 +434,12 @@
         overflow: hidden;
         border-block: 1px solid var(--line);
         background: rgba(18, 51, 48, 0.44);
-        padding: 3.1rem 0 1.05rem;
-      }
-      .marquee-toggle {
-        align-items: center;
-        position: absolute;
-        top: 0.45rem;
-        right: var(--gutter);
-        z-index: 2;
-        display: inline-flex;
-        min-height: 2.25rem;
-        padding: 0.45rem 0.8rem;
-        border: 1px solid rgba(231, 201, 137, 0.4);
-        border-radius: 999px;
-        background: var(--ink);
-        color: var(--paper);
-        font: 700 0.65rem var(--sans);
-        letter-spacing: 0.06em;
-        cursor: pointer;
-      }
-      .marquee-toggle:hover,
-      .marquee-toggle[aria-pressed="true"] {
-        border-color: var(--gold-soft);
-        color: var(--gold-soft);
+        padding: 1.05rem 0;
       }
       .marquee-track {
         display: flex;
         width: max-content;
         animation: forward 18s linear infinite;
-        animation-play-state: paused;
-      }
-      .marquee.is-moving .marquee-track {
-        animation-play-state: running;
       }
       .marquee-track + .marquee-track {
         margin-top: 0.65rem;
@@ -1221,7 +1195,7 @@
           height: 24px;
         }
         .marquee {
-          padding: 3.1rem 0 0.85rem;
+          padding: 0.85rem 0;
         }
         .marquee-track + .marquee-track {
           margin-top: 0.4rem;
@@ -1363,24 +1337,10 @@
         .project-card {
           transform: none !important;
         }
-        .marquee {
-          padding-top: 3.1rem;
-        }
         .marquee-track {
-          animation: none !important;
-        }
-        .marquee-toggle:not([hidden]) {
-          position: absolute;
-          top: 0.45rem;
-          right: var(--gutter);
-          z-index: 2;
-          display: inline-flex;
-          align-items: center;
-        }
-        .marquee.is-moving .marquee-track {
           animation: forward 18s linear infinite !important;
         }
-        .marquee.is-moving .marquee-track + .marquee-track {
+        .marquee-track + .marquee-track {
           animation: reverse 22s linear infinite !important;
         }
         .about-word {
@@ -1486,9 +1446,6 @@
         role="region"
         aria-label="Bidang yang tercantum dalam portofolio"
       >
-        <button class="marquee-toggle" type="button" aria-pressed="false">
-          Putar marquee
-        </button>
         <div class="marquee-track" aria-hidden="true">
           <div class="marquee-line">
             <span>INFORMATIKA</span><span>•</span><span>BACKEND</span
@@ -2079,21 +2036,6 @@
           });
         }
 
-        function initMarqueeMotion() {
-          const marquee = document.querySelector(".marquee");
-          const toggle = marquee.querySelector(".marquee-toggle");
-          const startPlaying = !reducedMotion.matches;
-          marquee.classList.toggle("is-moving", startPlaying);
-          toggle.setAttribute("aria-pressed", String(startPlaying));
-          toggle.textContent = startPlaying ? "Jeda marquee" : "Putar marquee";
-          toggle.addEventListener("click", () => {
-            const playing = toggle.getAttribute("aria-pressed") !== "true";
-            toggle.setAttribute("aria-pressed", String(playing));
-            toggle.textContent = playing ? "Jeda marquee" : "Putar marquee";
-            marquee.classList.toggle("is-moving", playing);
-          });
-        }
-
         function initMagneticPhoto() {
           if (
             reducedMotion.matches ||
@@ -2229,7 +2171,6 @@
         const nav = initNavigation();
         initRevealAnimations();
         initAboutTextReveal();
-        initMarqueeMotion();
         initMagneticPhoto();
         initScrollEffects(nav);
       })();
