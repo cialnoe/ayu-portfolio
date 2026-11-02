@@ -73,6 +73,7 @@
 
     /* Marquee */
     .marquee{position:relative;z-index:2;overflow:hidden;border-block:1px solid var(--line);background:rgba(18,51,48,.44);padding:1.05rem 0}
+    .marquee-toggle{display:none;align-items:center;min-height:2.25rem;padding:.45rem .8rem;border:1px solid rgba(231,201,137,.4);border-radius:999px;background:var(--ink);color:var(--paper);font:700 .65rem var(--sans);letter-spacing:.06em;cursor:pointer}
     .marquee-track{display:flex;width:max-content;animation:forward 36s linear infinite}
     .marquee-track+.marquee-track{margin-top:.65rem;animation-name:reverse;animation-duration:44s}
     .marquee-line{display:flex;flex:0 0 auto;align-items:center;gap:1.2rem;padding-right:1.2rem;color:var(--paper-dim);font-size:.67rem;font-weight:700;letter-spacing:.15em;white-space:nowrap}
@@ -200,7 +201,12 @@
       *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
       .reveal{transform:none!important;opacity:1!important}
       .hero-photo-wrap,.hero-shape,.hero-ring,.project-card{transform:none!important}
-      .marquee-track{transform:none!important;animation:none!important}.about-word{opacity:1!important}
+      .marquee{padding-top:3.1rem}
+      .marquee-track{transform:none!important;animation:none!important}
+      .marquee-toggle:not([hidden]){position:absolute;top:.45rem;right:var(--gutter);z-index:2;display:inline-flex;align-items:center}
+      .marquee.is-moving .marquee-track{animation:forward 36s linear infinite!important}
+      .marquee.is-moving .marquee-track+.marquee-track{animation:reverse 44s linear infinite!important}
+      .about-word{opacity:1!important}
     }
   </style>
 </head>
@@ -244,6 +250,7 @@
 
     <!-- Marquee -->
     <div class="marquee" role="region" aria-label="Bidang yang tercantum dalam portofolio">
+      <button class="marquee-toggle" type="button" aria-pressed="false" hidden>Putar marquee</button>
       <div class="marquee-track" aria-hidden="true">
         <div class="marquee-line"><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span></div>
         <div class="marquee-line"><span>INFORMATIKA</span><span>•</span><span>BACKEND</span><span>•</span><span>AI INTEGRATION</span><span>•</span><span>SISTEM PENDUKUNG KEPUTUSAN</span><span>•</span><span>UI/UX</span><span>•</span><span>SOFTWARE</span><span>•</span></div>
@@ -482,6 +489,19 @@
         });
       }
 
+      function initMarqueeMotion() {
+        const marquee = document.querySelector(".marquee");
+        const toggle = marquee.querySelector(".marquee-toggle");
+        if (!reducedMotion.matches) return;
+        toggle.hidden = false;
+        toggle.addEventListener("click", () => {
+          const playing = toggle.getAttribute("aria-pressed") !== "true";
+          toggle.setAttribute("aria-pressed", String(playing));
+          toggle.textContent = playing ? "Jeda marquee" : "Putar marquee";
+          marquee.classList.toggle("is-moving", playing);
+        });
+      }
+
       function initMagneticPhoto() {
         if (reducedMotion.matches || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
         const photo = document.getElementById("hero-photo");
@@ -553,6 +573,7 @@
       const nav = initNavigation();
       initRevealAnimations();
       initAboutTextReveal();
+      initMarqueeMotion();
       initMagneticPhoto();
       initScrollEffects(nav);
     })();
