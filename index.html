@@ -434,11 +434,15 @@
         overflow: hidden;
         border-block: 1px solid var(--line);
         background: rgba(18, 51, 48, 0.44);
-        padding: 1.05rem 0;
+        padding: 3.1rem 0 1.05rem;
       }
       .marquee-toggle {
-        display: none;
         align-items: center;
+        position: absolute;
+        top: 0.45rem;
+        right: var(--gutter);
+        z-index: 2;
+        display: inline-flex;
         min-height: 2.25rem;
         padding: 0.45rem 0.8rem;
         border: 1px solid rgba(231, 201, 137, 0.4);
@@ -449,10 +453,19 @@
         letter-spacing: 0.06em;
         cursor: pointer;
       }
+      .marquee-toggle:hover,
+      .marquee-toggle[aria-pressed="true"] {
+        border-color: var(--gold-soft);
+        color: var(--gold-soft);
+      }
       .marquee-track {
         display: flex;
         width: max-content;
         animation: forward 18s linear infinite;
+        animation-play-state: paused;
+      }
+      .marquee.is-moving .marquee-track {
+        animation-play-state: running;
       }
       .marquee-track + .marquee-track {
         margin-top: 0.65rem;
@@ -646,6 +659,14 @@
         font-size: 0.77rem;
         font-weight: 700;
         letter-spacing: 0.035em;
+      }
+      .tl-category {
+        margin: 0.3rem 0 0.35rem;
+        color: var(--gold);
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
       }
       .tl-role {
         margin: 0.45rem 0 0.15rem;
@@ -1200,7 +1221,7 @@
           height: 24px;
         }
         .marquee {
-          padding: 0.85rem 0;
+          padding: 3.1rem 0 0.85rem;
         }
         .marquee-track + .marquee-track {
           margin-top: 0.4rem;
@@ -1346,7 +1367,6 @@
           padding-top: 3.1rem;
         }
         .marquee-track {
-          transform: none !important;
           animation: none !important;
         }
         .marquee-toggle:not([hidden]) {
@@ -1466,12 +1486,7 @@
         role="region"
         aria-label="Bidang yang tercantum dalam portofolio"
       >
-        <button
-          class="marquee-toggle"
-          type="button"
-          aria-pressed="false"
-          hidden
-        >
+        <button class="marquee-toggle" type="button" aria-pressed="false">
           Putar marquee
         </button>
         <div class="marquee-track" aria-hidden="true">
@@ -1552,6 +1567,44 @@
                 <span class="timeline-count">01</span
                 ><span class="timeline-dot"></span>
               </div>
+              <p class="tl-period">Maret–Oktober · 6 Bulan</p>
+              <p class="tl-category">Pengalaman Kerja</p>
+              <h3 class="tl-role">Barista</h3>
+              <p class="tl-org">Nilu Reserve</p>
+              <ul class="tl-list">
+                <li>
+                  Menyiapkan dan menyajikan minuman berbasis espresso sesuai
+                  standar kualitas.
+                </li>
+                <li>
+                  Mengoperasikan mesin espresso serta melakukan proses ekstraksi
+                  kopi.
+                </li>
+                <li>
+                  Membuat latte art untuk meningkatkan kualitas penyajian
+                  minuman.
+                </li>
+                <li>
+                  Mengoperasikan mesin kasir dan memproses transaksi pelanggan.
+                </li>
+                <li>
+                  Memberikan pelayanan yang ramah serta memastikan kepuasan
+                  pelanggan.
+                </li>
+                <li>
+                  Menjaga kebersihan area bar, peralatan, dan tempat kerja.
+                </li>
+                <li>
+                  Bekerja sama dengan tim untuk memastikan operasional coffee
+                  shop berjalan lancar.
+                </li>
+              </ul>
+            </article>
+            <article class="timeline-item reveal">
+              <div class="timeline-marker" aria-hidden="true">
+                <span class="timeline-count">02</span
+                ><span class="timeline-dot"></span>
+              </div>
               <p class="tl-period">Agustus 2026</p>
               <h3 class="tl-role">Pengembang Backend &amp; Integrasi AI</h3>
               <p class="tl-org">Aplikasi &ldquo;NutriLocal&rdquo;</p>
@@ -1576,7 +1629,7 @@
             </article>
             <article class="timeline-item reveal">
               <div class="timeline-marker" aria-hidden="true">
-                <span class="timeline-count">02</span
+                <span class="timeline-count">03</span
                 ><span class="timeline-dot"></span>
               </div>
               <p class="tl-period">Agustus 2026</p>
@@ -1592,7 +1645,7 @@
             </article>
             <article class="timeline-item reveal">
               <div class="timeline-marker" aria-hidden="true">
-                <span class="timeline-count">03</span
+                <span class="timeline-count">04</span
                 ><span class="timeline-dot"></span>
               </div>
               <p class="tl-period">Juni 2026</p>
@@ -1615,7 +1668,7 @@
             </article>
             <article class="timeline-item reveal">
               <div class="timeline-marker" aria-hidden="true">
-                <span class="timeline-count">04</span
+                <span class="timeline-count">05</span
                 ><span class="timeline-dot"></span>
               </div>
               <p class="tl-period">Mei 2026</p>
@@ -1632,7 +1685,7 @@
             </article>
             <article class="timeline-item reveal">
               <div class="timeline-marker" aria-hidden="true">
-                <span class="timeline-count">05</span
+                <span class="timeline-count">06</span
                 ><span class="timeline-dot"></span>
               </div>
               <p class="tl-period">September 2025</p>
@@ -2029,8 +2082,10 @@
         function initMarqueeMotion() {
           const marquee = document.querySelector(".marquee");
           const toggle = marquee.querySelector(".marquee-toggle");
-          if (!reducedMotion.matches) return;
-          toggle.hidden = false;
+          const startPlaying = !reducedMotion.matches;
+          marquee.classList.toggle("is-moving", startPlaying);
+          toggle.setAttribute("aria-pressed", String(startPlaying));
+          toggle.textContent = startPlaying ? "Jeda marquee" : "Putar marquee";
           toggle.addEventListener("click", () => {
             const playing = toggle.getAttribute("aria-pressed") !== "true";
             toggle.setAttribute("aria-pressed", String(playing));
