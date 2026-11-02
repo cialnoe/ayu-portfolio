@@ -443,7 +443,7 @@
       }
       .marquee-track + .marquee-track {
         margin-top: 0.65rem;
-        animation-name: reverse;
+        animation-name: marquee-reverse;
         animation-duration: 22s;
       }
       .marquee-line {
@@ -466,7 +466,7 @@
           transform: translateX(-50%);
         }
       }
-      @keyframes reverse {
+      @keyframes marquee-reverse {
         from {
           transform: translateX(-50%);
         }
@@ -1341,7 +1341,7 @@
           animation: forward 18s linear infinite !important;
         }
         .marquee-track + .marquee-track {
-          animation: reverse 22s linear infinite !important;
+          animation: marquee-reverse 22s linear infinite !important;
         }
         .about-word {
           opacity: 1 !important;
